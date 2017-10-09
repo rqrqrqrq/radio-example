@@ -74,7 +74,10 @@ class App extends Component {
                 <label>
                   <input
                     type="radio"
-                    onChange={onChange}
+                    onChange={e => {
+                      onChange(e);
+                      this.customInput.focus();
+                    }}
                     value={value}
                     {...props}
                   />
@@ -82,6 +85,7 @@ class App extends Component {
                   </label>
                 <input
                   type="text"
+                  ref={node => { this.customInput = node; }}
                   onChange={e => this.setState({ controlledInputValue: e.target.value })}
                   value={this.state.controlledInputValue}
                   onFocus={() => onChange({  target: { value } })}
