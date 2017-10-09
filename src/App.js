@@ -4,6 +4,7 @@ import RadioGroup from './RadioGroup';
 class App extends Component {
   state = {
     v: '10',
+    controlledInputValue: 'default input value',
   }
 
   handleChange = e => {
@@ -61,6 +62,44 @@ class App extends Component {
             { label: 'custom', value: 'simple'}
           ]}
           onChange={e => console.log(e.target.value)}
+        />
+        <h1>another custom example</h1>
+        <RadioGroup
+          name="input"
+          options={[
+            { label: 'stupid1', value: 'stupid1' },
+            { label: 'stupid2', value: 'stupid2' },
+            { renderer: ({ key, onChange, value, ...props }) => (
+              <div key={key}>
+                <label>
+                  <input
+                    type="radio"
+                    onChange={onChange}
+                    value={value}
+                    {...props}
+                  />
+                    radio Label
+                  </label>
+                <input
+                  type="text"
+                  onChange={e => this.setState({ controlledInputValue: e.target.value })}
+                  value={this.state.controlledInputValue}
+                  onFocus={() => onChange({  target: { value } })}
+                />
+              </div>
+            ),
+              value: '__CUSTOM_VALUE__',
+            }
+          ]}
+          onChange={e => {
+            const output = { checked: e.target.value };
+
+            if (e.target.value === '__CUSTOM_VALUE__') {
+              output.value = this.state.controlledInputValue;
+            }
+
+            console.log(output);
+          }}
         />
       </div>
     );
